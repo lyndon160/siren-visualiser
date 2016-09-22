@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Siren</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <script>
+        var d3v4=d3;
+        console.log(d3.version);
+    </script>
+
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    <script>
+        var d3v3=d3;
+        console.log(d3.version);
+    </script>
+
+
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js"></script>-->
+    <script src="plot.js"></script>
+    <script src="d3pie.min.js"></script>
+
+
+
+</head>
+
+
+
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>Siren visualiser</h1>
+        <p class="lead">A combinatorial auctioning system for the Fog</p>
+    </div>
+
+    <h3>The Fog Infrastructure</h3>
+    <p>Information on the Fog. Available resource. Number of bids. Services running.</p>
+    <div class="row">
+        <div class="col-md-4 box-element" style="text-align: center;">
+            <b>Datacenter and ISP Core</b><br>
+            <div class="fog-vis" style="height:200px;" id="datacenter-vis">
+                    <script>
+                        //selectableForceDirectedGraph("datacenter");
+                        nodeGraph("datacenter");
+
+                    </script>
+            </div><br>
+            <div class="fog-stat" style="height:200px;" id="datacenter-stat">
+                <script>pie("datacenter")</script>
+            </div>
+    </div>
+
+        <div class="col-md-4 box-element" style="text-align: center">
+            <b>Telephone Exchange</b><br>
+            <div class="fog-vis" style="height:200px;" id="exchange-vis">
+                <script>nodeGraph("exchange");</script>
+            </div><br>
+
+
+
+            <div class="fog-stat" style="height:200px;" id="exchange-stat">
+
+                <script>pie("exchange")</script>
+            </div>
+        </div>
+        <div class="col-md-4 box-element" style="text-align: center">
+            <b>Customer Residence</b><br>
+            <div class="fog-vis" style="height:200px;" id="residence-vis">
+
+                <script>nodeGraph("residence");</script>
+
+            </div><br>
+            <div class="fog-stat" style="height:200px;" id="residence-stat">
+                <script>pie("residence")</script>
+            </div>
+        </div>
+    </div>
+
+    <h3>Live auctions</h3>
+    TODO
+
+
+
+
+</div> <!-- /container -->
+
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+</body>
+</html>

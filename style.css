@@ -1,0 +1,50 @@
+.links line {
+    stroke: #777;
+    stroke-width: 2px;
+}
+.node text {
+    stroke:#333;
+    cursos:pointer;
+}
+
+.node circle{
+    stroke:#fff;
+    stroke-width:3px;
+    fill:#555;
+}
+
+#datacenter-vis{
+    background-color: #ffbfd9;
+}
+
+
+
+#exchange-vis{
+    background-color: #d7ffcf;
+}
+
+
+#residence-vis{
+    background-color: #bab7ff;
+}
+
+.fog-vis{
+}
+
+.fog-stat{
+
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 200px;
+    height: 500px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    /*  pointer-events: none;	This line needs to be removed */
+
+}
