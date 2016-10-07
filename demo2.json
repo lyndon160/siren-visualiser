@@ -1,0 +1,125 @@
+[{
+	"total_memory": 973,
+	"available_memory": 973,
+	"reserved_memory": 0,
+	"location": "exchange",
+	"arch": "armv7l",
+	"id": "192.168.2.16",
+	"containers": []
+}, {
+	"total_memory": 973,
+	"available_memory": 973,
+	"reserved_memory": 0,
+	"location": "datacenter",
+	"arch": "armv7l",
+	"id": "192.168.2.17",
+	"containers": []
+}, {
+	"total_memory": 973,
+	"available_memory": 973,
+	"reserved_memory": 0,
+	"location": "residence",
+	"arch": "armv7l",
+	"id": "192.168.2.13",
+	"containers": []
+}, {
+	"total_memory": 973,
+	"available_memory": 773,
+	"reserved_memory": 200,
+	"location": "exchange",
+	"arch": "armv7l",
+	"id": "192.168.2.15",
+	"containers": [{
+		"Status": "Up 11 seconds",
+		"Created": 1475766113,
+		"Image": "hypriot/rpi-busybox-httpd",
+		"Labels": {},
+		"NetworkSettings": {
+			"Networks": {
+				"bridge": {
+					"NetworkID": "84c6a2a6e77c7cd2ed94efd58b5ed9af0d7f13b6a9e3cb577ef0c26f2c2f7b39",
+					"MacAddress": "02:42:ac:11:00:02",
+					"GlobalIPv6PrefixLen": 0,
+					"Links": null,
+					"GlobalIPv6Address": "",
+					"IPv6Gateway": "",
+					"IPAMConfig": null,
+					"EndpointID": "9e24097a51e32af3f3d6bcd64902d0c83140bfe4312d9b4baf7596830ca0310e",
+					"IPPrefixLen": 16,
+					"IPAddress": "172.17.0.2",
+					"Gateway": "172.17.0.1",
+					"Aliases": null
+				}
+			}
+		},
+		"HostConfig": {
+			"NetworkMode": "default"
+		},
+		"ImageID": "sha256:fbd9685c5ffc3b35e30331c1ea01b2a3e2ffabbdd076989f67bb4cad8de8c638",
+		"State": "running",
+		"Command": "/bin/busybox httpd -f -p 80 -h /www",
+		"Names": ["/elegant_goldwasser"],
+		"Mounts": [],
+		"Id": "19c2fd634ab6e82352795b484eda7848e6d0b158baad99381735c02a17c07d25",
+		"Ports": [{
+			"IP": "0.0.0.0",
+			"Type": "tcp",
+			"PublicPort": 64444,
+			"PrivatePort": 80
+		}]
+	}]
+}, {
+	"total_memory": 973,
+	"available_memory": 973,
+	"reserved_memory": 0,
+	"location": "residence",
+	"arch": "armv7l",
+	"id": "192.168.2.14",
+	"containers": []
+}, {
+	"total_memory": 973,
+	"available_memory": 773,
+	"reserved_memory": 200,
+	"location": "datacenter",
+	"arch": "armv7l",
+	"id": "192.168.2.18",
+	"containers": [{
+		"Status": "Up 11 seconds",
+		"Created": 1475766113,
+		"Image": "hypriot/rpi-busybox-httpd",
+		"Labels": {},
+		"NetworkSettings": {
+			"Networks": {
+				"bridge": {
+					"NetworkID": "36fc9a414ac813ea770901bb1d86b3ae17dca530c34114e51e5d99892190b809",
+					"MacAddress": "02:42:ac:11:00:02",
+					"GlobalIPv6PrefixLen": 0,
+					"Links": null,
+					"GlobalIPv6Address": "",
+					"IPv6Gateway": "",
+					"IPAMConfig": null,
+					"EndpointID": "3fd5a3c9f0036c2e85ffcd640b7b8dc8f865f4e8c28f699c82578da7ed5e08e3",
+					"IPPrefixLen": 16,
+					"IPAddress": "172.17.0.2",
+					"Gateway": "172.17.0.1",
+					"Aliases": null
+				}
+			}
+		},
+		"HostConfig": {
+			"NetworkMode": "default"
+		},
+		"ImageID": "sha256:fbd9685c5ffc3b35e30331c1ea01b2a3e2ffabbdd076989f67bb4cad8de8c638",
+		"State": "running",
+		"Command": "/bin/busybox httpd -f -p 80 -h /www",
+		"Names": ["/determined_lovelace"],
+		"Mounts": [],
+		"Id": "ab5f0ef9ed2ac34bac91236697e83a230dbd68c6131285041ec39d00efe0b93b",
+		"Ports": [{
+			"IP": "0.0.0.0",
+			"Type": "tcp",
+			"PublicPort": 64444,
+			"PrivatePort": 80
+		}]
+	}]
+}]

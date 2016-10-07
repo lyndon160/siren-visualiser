@@ -6,38 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Siren</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
 
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <script>
-        var d3v4=d3;
+        var d3v4 = d3;
         console.log(d3.version);
     </script>
-
-
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="popover"]').popover();
-        });
-    </script>
-
-
     <script src="https://d3js.org/d3.v3.min.js"></script>
 
     <script>
-        var d3v3=d3;
+        var d3v3 = d3;
         console.log(d3.version);
+
     </script>
 
 
@@ -46,9 +39,7 @@
     <script src="d3pie.min.js"></script>
 
 
-
 </head>
-
 
 
 <body>
@@ -59,61 +50,195 @@
     </div>
 
     <h3>The Fog Infrastructure</h3>
-    <p>Information on the Fog. Available resource. Number of bids. Services running.</p>
+    <div class="row">
+        <div style="padding-bottom: 80px">
+            <div class="col-md-6 box-element" style="text-align: center;">
+                <p>Information on the Fog. Available resource. Services running.</p>
+            </div>
+
+            <div class="col-md-6 box-element" style="text-align: center;">
+                <button type="button" id="wipe" class="btn btn-danger">Reset infrastructure</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#wipe").click(function () {
+            //nodes_response = $.getJSON("http://192.168.2.19:60000/reset_all", function(json) {alert("Demo reset")});
+            /*    $.ajax({
+             url: "http://192.168.2.19:60000/reset_all",
+             type: 'DELETE',
+             success: function(result) { location.reload();
+             // Do something with the result
+             },
+             error: function(result) {alert("Could not reset demo");}
+             });
+             //Wipe infrastructure here */
+
+            $.getJSON("http://127.0.0.1:60000/reset_all", function (json) {
+                alert("Wiped infrastructure.")
+            });
+
+
+            $.getJSON("http://127.0.0.1:8080/debug/reset", function (json) {
+                alert("Wiped auctions.")
+            });
+        });
+
+
+    </script>
+
+
     <div class="row">
         <div class="col-md-4 box-element" style="text-align: center;">
-            <b>Datacenter and ISP Core</b><br>
-            <div class="fog-vis" style="height:200px;" id="datacenter-vis">
-                    <script>
-                        //selectableForceDirectedGraph("datacenter");
-                        nodeGraph("datacenter");
+            <b>Datacenter and ISP Core Pool</b><br>
+            <div id="container" class="svg-container">
+                <div class="fog-vis" style="height:200px;" id="datacenter-vis">
 
+
+                    <script>
+                        //nodeGraph("datacenter");
+                        getNodes();
+                        //etInterval(getNodes, 5000);
                     </script>
-            </div><br>
-            <div class="fog-stat" style="height:200px;" id="datacenter-stat">
-                <script>pie("datacenter")</script>
+
+                </div>
+                <br>
             </div>
-    </div>
+            <div class="fog-stat" style="height:200px;" id="datacenter-stat">
+                <script>//pie("datacenter")</script>
+            </div>
+        </div>
 
         <div class="col-md-4 box-element" style="text-align: center">
-            <b>Telephone Exchange</b><br>
-            <div class="fog-vis" style="height:200px;" id="exchange-vis">
-                <script>nodeGraph("exchange");</script>
-            </div><br>
-
-
-
+            <b>Telephone Exchange Pool</b><br>
+            <div id="container" class="svg-container">
+                <div class="fog-vis" style="height:200px;" id="exchange-vis">
+                    <script>//nodeGraph("exchange");</script>
+                </div>
+                <br>
+            </div>
             <div class="fog-stat" style="height:200px;" id="exchange-stat">
 
-                <script>pie("exchange")</script>
+                <script>//pie("exchange")</script>
             </div>
         </div>
         <div class="col-md-4 box-element" style="text-align: center">
-            <b>Customer Residence</b><br>
-            <div class="fog-vis" style="height:200px;" id="residence-vis">
+            <b>Customer Residence Pool</b><br>
+            <div id="container" class="svg-container">
+                <div class="fog-vis" style="height:200px;" id="residence-vis">
 
-                <script>nodeGraph("residence");</script>
+                    <script>//nodeGraph("residence");</script>
 
-            </div><br>
+                </div>
+                <br>
+            </div>
             <div class="fog-stat" style="height:200px;" id="residence-stat">
-                <script>pie("residence")</script>
+                <script>//pie("residence")</script>
             </div>
         </div>
     </div>
 
     <h3>Live auctions</h3>
-    TODO
+    <script>
+        liveAuctions();
+    </script>
+    <div class="row">
+        <div class="col-md-4 box-element" style="text-align: center;">
+            <b>Datacenter and ISP Core Auction</b><br>
+            <div class="fog-auction" style="height:200px;" id="datacenter-auction">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Items</th>
+                            <th>Winning bidder</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>200MB</td>
+                            <td>Provider A</td>
+                            <td>40</td>
+                        </tr>
+                        <tr>
+                            <td>200MB</td>
+                            <td>Provider B</td>
+                            <td>50</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
 
+
+            <br>
+
+        </div>
+
+        <div class="col-md-4 box-element" style="text-align: center;">
+            <b>Telephone Exchange Auction</b><br>
+            <div class="fog-auction" style="height:200px;" id="exchange-auction">
+
+            </div>
+            <br>
+
+        </div>
+
+        <div class="col-md-4 box-element" style="text-align: center;">
+            <b>Customer Residence Auction</b><br>
+            <div class="fog-auction" style="height:200px;" id="residence-auction">
+
+            </div>
+            <br>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="row">
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Node breakdown</h4>
+            </div>
+            <div class="modal-body" style="word-wrap: break-word;" id="modalBody">
+                <div id="modalContent">
+                    <p>Ram reserved/ram used</p>
+                </div>
+                <div class="fog-stat" style="height:200px;" id="modal-stat"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#myBtn").click(function () {
+            $("#myModal").modal();
+            console.log("Hello world");
+        });
+    });
+</script>
 
 
 </div> <!-- /container -->
 
-
-
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </body>
 </html>

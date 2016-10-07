@@ -1,0 +1,12 @@
+{
+  "nodes": [
+    {"id": "Myriel", "group": 1, "size": 20},
+    {"id": "Napoleon", "group": 2, "size": 5},
+    {"id": "Atrix", "group": 3, "size": 5}
+
+  ],
+  "links": [
+    {"source": "Myriel", "target": "Napoleon", "value": 1},
+    {"source": "Myriel", "target": "Atrix", "value": 2}
+  ]
+}
