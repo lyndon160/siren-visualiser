@@ -461,8 +461,10 @@ function liveAuctions(){
         console.log(json[0].items);
         //Dynamically fill contents of table
         $('#datacenter-auction').empty();
+        $('#exchange-auction').empty();
+        $('#residence-auction').empty();
 
-        var table_start = '<table class="table"><thead><tr><th>Items</th><th>Winning bidder</th><th>Amount</th></tr></thead><tbody>';
+        var table_start = '<table class="table table-hover"><thead><tr><th>Items</th><th>Winning bidder</th><th>Amount</th></tr></thead><tbody>';
         var table_end = '</tbody></table>';
         var datacenter_table = table_start;
         var exchange_table = table_start;
@@ -472,35 +474,35 @@ function liveAuctions(){
 
         var i;
         for(i=0; i < json[0].items.length; i++){
-            if(json[0].items[i].parent.location == "datacenter") {
+            if(json[0].items[i].parent_node.location == "datacenter") {
                 datacenter_table += '<tr>';
 
                 var item = json[0].items[i].memory;
 
                 datacenter_table += '<td>' + item + 'MB</td>';
 
-                var winning_bidder = json[0].items[i].winning_bid.user_id;
+                var leading_bidder = json[0].items[i].leading_bid.user_id;
 
-                datacenter_table += '<td>' + winning_bidder + '</td>';
+                datacenter_table += '<td>' + leading_bidder + '</td>';
 
-                var highest_bid = json[0].items[i].winning_bid.amount;
+                var highest_bid = json[0].items[i].price;
 
                 datacenter_table += '<td>' + highest_bid + '</td>';
 
                 datacenter_table += '</tr>';
             }
-            else if(json[0].items[i].parent.location == "exchange") {
+            else if(json[0].items[i].parent_node.location == "exchange") {
                 exchange_table += '<tr>';
 
                 var item = json[0].items[i].memory;
 
                 exchange_table += '<td>' + item + 'MB</td>';
 
-                var winning_bidder = json[0].items[i].winning_bid.user_id;
+                var leading_bidder = json[0].items[i].leading_bid.user_id;
 
-                exchange_table += '<td>' + winning_bidder + '</td>';
+                exchange_table += '<td>' + leading_bidder + '</td>';
 
-                var highest_bid = json[0].items[i].winning_bid.amount;
+                var highest_bid = json[0].items[i].price;
 
                 exchange_table += '<td>' + highest_bid + '</td>';
 
@@ -510,18 +512,18 @@ function liveAuctions(){
 
             }
 
-            else if(json[0].items[i].parent.location == "residence") {
+            else if(json[0].items[i].parent_node.location == "residence") {
                 residence_table += '<tr>';
 
                 var item = json[0].items[i].memory;
 
                 residence_table += '<td>' + item + 'MB</td>';
 
-                var winning_bidder = json[0].items[i].winning_bid.user_id;
+                var leading_bidder = json[0].items[i].leading_bid.user_id;
 
-                residence_table += '<td>' + winning_bidder + '</td>';
+                residence_table += '<td>' + leading_bidder + '</td>';
 
-                var highest_bid = json[0].items[i].winning_bid.amount;
+                var highest_bid = json[0].items[i].price;
 
                 residence_table += '<td>' + highest_bid + '</td>';
 
@@ -562,7 +564,7 @@ function liveAuctions(){
 
 function nodeGraph(location, nodes_info){
 
-
+    console.log("Creating node graphs");
     var div_id= location+"-vis";
     console.log("#"+location+"-vis");
     //  console.log(document.getElementById(div_id).offsetHeight)
@@ -628,6 +630,8 @@ function nodeGraph(location, nodes_info){
     var node_list = [];
     var link_list = [];
    // console.log(nodes_response[1]);
+    console.log("Nodes info");
+    console.log(nodes_info);
     if(nodes_info) {
         var i;
 
@@ -638,13 +642,18 @@ function nodeGraph(location, nodes_info){
             console.log(nodes_info[i].reserved_memory);
             console.log(nodes_info[i].arch);
             console.log(nodes_info[i].containers);
+
+            console.log("Found a node");
+
+            var size = nodes_info[i].total_memory/100;
             if(nodes_info[i].location == location){
-                node_list.push({"id": nodes_info[i].id, "size": 10, "ext": nodes_info[i], "icon": "pi.png"});
+                console.log("Creating node");
+                node_list.push({"id": nodes_info[i].id, "size": size, "ext": nodes_info[i], "icon": "pi.png"});
 
                 //Loop over nodes containers
                 var j;
                 for(j = 0; j < nodes_info[i].containers.length; j++) {
-                    console.log("Creating node");
+                    console.log("Creating container node");
                     node_list.push({"id": nodes_info[i].id + String.fromCharCode(97+j), "size": 3, "icon": "pi.png"});
                     link_list.push({"source": nodes_info[i].id, "target": nodes_info[i].id + String.fromCharCode(97+j)});
                 }
@@ -717,22 +726,59 @@ function nodeGraph(location, nodes_info){
         console.log(d.ext.reserved_memory);
         console.log(d.ext.total_memory);
 
+        var hoz_table_start = '<table class="table table-hover"> <tbody>';
+        var hoz_table_end = '</tbody></table>';
+        var hoz_content = hoz_table_start;
+
+        //Fill out device info
+        $("#device-info").empty();
+
+        //Address
+        hoz_content += '<tr><th>Address</th><td>'+d.ext.id+'</td></tr>';
+        //Location
+        hoz_content += '<tr><th>Location</th><td>'+d.ext.location+'</td></tr>';
+        //Architecture
+        hoz_content += '<tr><th>Architecture</th><td>'+d.ext.arch+'</td></tr>';
+
+        hoz_content += '<tr><th>Running services</th><td>'+d.ext.containers.length+'</td></tr>';
+
+        $("#device-info").append(hoz_content);
+
+
+
         //$("#modalContent").text(JSON.stringify(d));
         //console.log(d)
        // $("#modalContent").text(JSON.stringify(d.ext.id)+JSON.stringify(d.ext.));
         var i;
         var containers = [];
         var text = "<ul>";
+        var container_table_start =  '<table class="table hover-mode"><thead><tr><th>Service name</th><th>Service URI</th><th>Status</th></tr></thead><tbody>';
+        var container_table_end = '</tbody></table>';
+        var container_table_content = container_table_start;
+        var container_table_service_name = '';
+        var container_table_service_uri = '';
+        var container_table_service_status = '';
         for(i=0;i < d.ext.containers.length; i++){
             containers.push(d.ext.containers[i].Ports[0].PublicPort);
-
             var service_url = "http://" + d.ext.id +":"+d.ext.containers[i].Ports[0].PublicPort;
             var service_name = d.ext.containers[i].Image;
+            container_table_service_name = '<td>' + service_name.replace("lyndon160/","") + '</td>';
+
+            container_table_service_uri = '<td>' + "<a href=" + service_url + ">" + service_url + "</a>" + '</td>';
+            container_table_service_status = '<td>' + d.ext.containers[i].Status + '</td>';
+
+            container_table_content += '<tr>' + container_table_service_name + container_table_service_uri + container_table_service_status + '</tr>';
+
             text += "<li>" + service_name.replace("lyndon160/","") + ": <a href=" + service_url + ">" + service_url + "</a></li>";
         }
 
         text += "</ul>";
-        $("#modalContent").append(text);
+
+
+        //container_table_content +='<tr>' + container_table_service_name + '<tr>' + '<tr>' + container_table_service_uri + '<tr>' + '<tr>' + container_table_service_status + '<tr>';
+
+        $("#device-services").empty();
+        $("#device-services").append(container_table_content);
 
 
         $("#myModal").modal();

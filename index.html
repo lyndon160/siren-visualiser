@@ -51,12 +51,12 @@
 
     <h3>The Fog Infrastructure</h3>
     <div class="row">
-        <div style="padding-bottom: 80px">
-            <div class="col-md-6 box-element" style="text-align: center;">
-                <p>Information on the Fog. Available resource. Services running.</p>
+        <div style="padding-bottom: 50px">
+            <div class="col-md-10 box-element">
+                <p>This shows the available resource in each location and the services that they are currently running.</p>
             </div>
 
-            <div class="col-md-6 box-element" style="text-align: center;">
+            <div class="col-md-2 box-element" style="text-align: center;">
                 <button type="button" id="wipe" class="btn btn-danger">Reset infrastructure</button>
             </div>
         </div>
@@ -75,13 +75,12 @@
              //Wipe infrastructure here */
 
             $.getJSON("http://127.0.0.1:60000/reset_all", function (json) {
-                alert("Wiped infrastructure.")
+                $.getJSON("http://127.0.0.1:8080/debug/reset", window.location.reload());
             });
 
 
-            $.getJSON("http://127.0.0.1:8080/debug/reset", function (json) {
-                alert("Wiped auctions.")
-            });
+
+
         });
 
 
@@ -90,7 +89,7 @@
 
     <div class="row">
         <div class="col-md-4 box-element" style="text-align: center;">
-            <b>Datacenter and ISP Core Pool</b><br>
+            <h4>Datacenter and ISP Core Pool</h4>
             <div id="container" class="svg-container">
                 <div class="fog-vis" style="height:200px;" id="datacenter-vis">
 
@@ -110,7 +109,7 @@
         </div>
 
         <div class="col-md-4 box-element" style="text-align: center">
-            <b>Telephone Exchange Pool</b><br>
+            <h4>Telephone Exchange Pool</h4>
             <div id="container" class="svg-container">
                 <div class="fog-vis" style="height:200px;" id="exchange-vis">
                     <script>//nodeGraph("exchange");</script>
@@ -123,7 +122,7 @@
             </div>
         </div>
         <div class="col-md-4 box-element" style="text-align: center">
-            <b>Customer Residence Pool</b><br>
+            <h4>Customer Residence Pool</h4>
             <div id="container" class="svg-container">
                 <div class="fog-vis" style="height:200px;" id="residence-vis">
 
@@ -141,10 +140,11 @@
     <h3>Live auctions</h3>
     <script>
         liveAuctions();
+        setInterval(liveAuctions, 5000);
     </script>
     <div class="row">
         <div class="col-md-4 box-element" style="text-align: center;">
-            <b>Datacenter and ISP Core Auction</b><br>
+            <h4>Datacenter and ISP Core Auction</h4>
             <div class="fog-auction" style="height:200px;" id="datacenter-auction">
 
                     <table class="table">
@@ -155,18 +155,6 @@
                             <th>Amount</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>200MB</td>
-                            <td>Provider A</td>
-                            <td>40</td>
-                        </tr>
-                        <tr>
-                            <td>200MB</td>
-                            <td>Provider B</td>
-                            <td>50</td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
 
@@ -177,8 +165,17 @@
         </div>
 
         <div class="col-md-4 box-element" style="text-align: center;">
-            <b>Telephone Exchange Auction</b><br>
+            <h4>Telephone Exchange Auction</h4>
             <div class="fog-auction" style="height:200px;" id="exchange-auction">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Items</th>
+                        <th>Winning bidder</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                </table>
 
             </div>
             <br>
@@ -186,8 +183,17 @@
         </div>
 
         <div class="col-md-4 box-element" style="text-align: center;">
-            <b>Customer Residence Auction</b><br>
+            <h4>Customer Residence Auction</h4>
             <div class="fog-auction" style="height:200px;" id="residence-auction">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Items</th>
+                        <th>Winning bidder</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                </table>
 
             </div>
             <br>
@@ -212,11 +218,48 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Node breakdown</h4>
             </div>
-            <div class="modal-body" style="word-wrap: break-word;" id="modalBody">
+            <div class="modal-body" style="word-wrap: break-word; min-height:200px;" id="modalBody">
                 <div id="modalContent">
-                    <p>Ram reserved/ram used</p>
+                    <div class="row">
+                        <div class="col-md-8 box-element">
+                            <h4>Device information</h4>
+                            <div id="device-info" style="min-height:150px;">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>192.168.1.1</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Location</th>
+                                        <td>Datacenter</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Architecture</th>
+                                        <td>x86_64</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4 box-element">
+                            <h4>Memory usage</h4>
+                            <div class="fog-stat" style="min-height:150px;" id="modal-stat"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 box-element">
+                            <h4>Device services</h4>
+                            <div id="device-services">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="fog-stat" style="height:200px;" id="modal-stat"></div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
