@@ -752,7 +752,7 @@ function nodeGraph(location, nodes_info){
         var i;
         var containers = [];
         var text = "<ul>";
-        var container_table_start =  '<table class="table hover-mode"><thead><tr><th>Service name</th><th>Service URI</th><th>Status</th></tr></thead><tbody>';
+        var container_table_start =  '<table class="table table-hover"><thead><tr><th>Service name</th><th>Service URI</th><th>Status</th></tr></thead><tbody>';
         var container_table_end = '</tbody></table>';
         var container_table_content = container_table_start;
         var container_table_service_name = '';
