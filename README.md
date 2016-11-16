@@ -6,4 +6,4 @@ Visualises a Fog infrastructure using d3
 * Add image of interface
 * Getting started guide
 * Seperate infrastructure from auction
-* 
+* Create git tag for demo
