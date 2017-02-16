@@ -464,7 +464,7 @@ function liveAuctions(){
         $('#exchange-auction').empty();
         $('#residence-auction').empty();
 
-        var table_start = '<table class="table table-hover"><thead><tr><th>Items</th><th>Winning bidder</th><th>Amount</th></tr></thead><tbody>';
+        var table_start = '<table class="table table-hover"><thead><tr><th>Items</th><th>Leading bidder</th><th>Amount</th></tr></thead><tbody>';
         var table_end = '</tbody></table>';
         var datacenter_table = table_start;
         var exchange_table = table_start;
@@ -653,9 +653,12 @@ function nodeGraph(location, nodes_info){
                 //Loop over nodes containers
                 var j;
                 for(j = 0; j < nodes_info[i].containers.length; j++) {
-                    console.log("Creating container node");
-                    node_list.push({"id": nodes_info[i].id + String.fromCharCode(97+j), "size": 3, "icon": "pi.png"});
-                    link_list.push({"source": nodes_info[i].id, "target": nodes_info[i].id + String.fromCharCode(97+j)});
+
+                    //if(! nodes_info[i].containers[j].Image.includes("agent")){
+                        console.log("Creating container node");
+                        node_list.push({"id": nodes_info[i].id + String.fromCharCode(97+j), "size": 3, "icon": "pi.png"});
+                        link_list.push({"source": nodes_info[i].id, "target": nodes_info[i].id + String.fromCharCode(97+j)});
+                    //}
                 }
             }
         }
@@ -759,17 +762,33 @@ function nodeGraph(location, nodes_info){
         var container_table_service_uri = '';
         var container_table_service_status = '';
         for(i=0;i < d.ext.containers.length; i++){
-            containers.push(d.ext.containers[i].Ports[0].PublicPort);
-            var service_url = "http://" + d.ext.id +":"+d.ext.containers[i].Ports[0].PublicPort;
-            var service_name = d.ext.containers[i].Image;
-            container_table_service_name = '<td>' + service_name.replace("lyndon160/","") + '</td>';
+            if(! d.ext.containers[i].Image.includes("agent")) {
+                containers.push(d.ext.containers[i].Ports[0].PublicPort);
+                var service_url = "http://" + d.ext.id + ":" + d.ext.containers[i].Ports[0].PublicPort;
+                var service_name = d.ext.containers[i].Image;
+                container_table_service_name = '<td>' + service_name.replace("lyndon160/", "") + '</td>';
 
-            container_table_service_uri = '<td>' + "<a href=" + service_url + ">" + service_url + "</a>" + '</td>';
-            container_table_service_status = '<td>' + d.ext.containers[i].Status + '</td>';
+                container_table_service_uri = '<td>' + "<a href=" + service_url + ">" + service_url + "</a>" + '</td>';
+                container_table_service_status = '<td>' + d.ext.containers[i].Status + '</td>';
 
-            container_table_content += '<tr>' + container_table_service_name + container_table_service_uri + container_table_service_status + '</tr>';
+                container_table_content += '<tr>' + container_table_service_name + container_table_service_uri + container_table_service_status + '</tr>';
 
-            text += "<li>" + service_name.replace("lyndon160/","") + ": <a href=" + service_url + ">" + service_url + "</a></li>";
+                text += "<li>" + service_name.replace("lyndon160/", "") + ": <a href=" + service_url + ">" + service_url + "</a></li>";
+            }
+            else{
+                containers.push(d.ext.containers[i].Image);
+                var service_url = d.ext.id
+                var service_name = d.ext.containers[i].Image;
+                container_table_service_name = '<td>' + service_name.replace("lyndon160/", "") + '</td>';
+
+                container_table_service_uri = '<td>' + "<a href=" + service_url + ">" + service_url + "</a>" + '</td>';
+                container_table_service_status = '<td>' + d.ext.containers[i].Status + '</td>';
+
+                container_table_content += '<tr>' + container_table_service_name + container_table_service_uri + container_table_service_status + '</tr>';
+
+                text += "<li>" + service_name.replace("lyndon160/", "") + ": <a href=" + service_url + ">" + service_url + "</a></li>";
+            }
+
         }
 
         text += "</ul>";
